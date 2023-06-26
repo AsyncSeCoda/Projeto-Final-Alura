@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import Account from '../models/Account.js';
 
 class AccountController {
@@ -24,10 +25,18 @@ class AccountController {
   };
 
   static createAccount = async (req, res) => {
+    const { nome, email, senha } = req.body;
+
+    const salt = await bcrypt.genSalt(12);
+    const senhaHash = await bcrypt.hash(senha, salt);
+
     const account = new Account({
-      ...req.body,
+      nome,
+      email,
+      senha: senhaHash,
       createdDate: Date(),
     });
+
     account.save((err, newAccount) => {
       if (err) {
         return res.status(500).send({ message: err.message });
