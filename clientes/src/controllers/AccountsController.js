@@ -24,25 +24,34 @@ class AccountController {
     });
   };
 
-  static createAccount = async (req, res) => {
+  static createAccount = async (req, res, next) => {
     const { nome, email, senha } = req.body;
 
-    const salt = await bcrypt.genSalt(12);
-    const senhaHash = await bcrypt.hash(senha, salt);
-
-    const account = new Account({
-      nome,
-      email,
-      senha: senhaHash,
-      createdDate: Date(),
-    });
-
-    account.save((err, newAccount) => {
-      if (err) {
-        return res.status(500).send({ message: err.message });
+    try {
+      const conta = await Account.findOne({ email });
+      if (conta) {
+        return res.status(409).json({ message: 'Já existe uma conta com esse email' });
       }
-      return res.status(201).set('Location', `/admin/accounts/${account.id}`).json(newAccount);
-    });
+      const salt = await bcrypt.genSalt(12);
+      const senhaHash = await bcrypt.hash(senha, salt);
+
+      const account = new Account({
+        nome,
+        email,
+        senha: senhaHash,
+        createdDate: Date(),
+      });
+
+      account.save((err, newAccount) => {
+        if (err) {
+          return res.status(500).send({ message: err.message });
+        }
+        return res.status(201).set('Location', `/admin/accounts/${account.id}`).json(newAccount);
+      });
+    } catch (err) {
+      return res.status(500).send({ message: err.message });
+    }
+    return next();
   };
 
   static updateAccount = (req, res) => {
