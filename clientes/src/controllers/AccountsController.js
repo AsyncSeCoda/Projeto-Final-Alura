@@ -1,5 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import bcrypt from 'bcryptjs';
+import passport from 'passport';
 import Account from '../models/Account.js';
+import generateToken from '../utils/auth.js';
 
 class AccountController {
   static findAccounts = (_req, res) => {
@@ -74,6 +77,21 @@ class AccountController {
       }
       return res.status(204).send({ message: 'Account successfully deleted' });
     });
+  };
+
+  static newLogin = (req, res, next) => {
+    passport.authenticate('local', { session: false }, (err, user, info) => {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        return res.status(400).json({ message: info.message });
+      }
+
+      const token = generateToken(user._id);
+      return res.status(204).header('Authorization', `Bearer ${token}`).send();
+    })(req, res, next);
   };
 }
 
