@@ -34,9 +34,9 @@ const cartaoSchema = new mongoose.Schema(
     _id: { type: String, auto: false },
     numeroCartao: { type: String },
     nomeCartao: { type: String },
-    validadeCartao: { type: Date },
+    validadeCartao: { type: String },
     cvcCartao: { type: String },
-    vencimentoFatura: { type: Date },
+    vencimentoFatura: { type: String },
   },
   {
     versionKey: false,
