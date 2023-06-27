@@ -22,7 +22,7 @@ const enderoSchema = new mongoose.Schema(
     complemento: { type: String || Number },
     cep: { type: String },
     cidade: { type: String },
-    estado: { type: String },
+    uf: { type: String },
   },
   {
     versionKey: false,
