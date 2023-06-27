@@ -55,7 +55,6 @@ passport.use(
       try {
         const payload = jwt.verify(token, JWT_SECRET);
         const account = await buscaPorId(payload.id);
-        console.log(account);
         done(null, account);
       } catch (err) {
         done(err);
