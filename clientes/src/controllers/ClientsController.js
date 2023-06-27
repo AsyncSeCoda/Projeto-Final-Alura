@@ -15,7 +15,8 @@ class ClientController {
     const { id } = req.params;
     try {
       const response = await Client.findById({ _id: id });
-      res.status(200).json(response);
+      const { dadosPessoais, endereco } = response;
+      res.status(200).json({ dadosPessoais, endereco });
     } catch {
       res.status(404).send('Nenhum cliente encontrado');
     }
