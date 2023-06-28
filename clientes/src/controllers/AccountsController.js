@@ -69,7 +69,7 @@ class AccountController {
       if (err) {
         return res.status(500).send({ message: err.message });
       }
-      return res.status(204).send({ message: 'Account successfully deleted' });
+      return res.status(204).send();
     });
   };
 
