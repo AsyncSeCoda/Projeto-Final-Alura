@@ -1,5 +1,5 @@
 import Client from '../models/Client.js';
-import validaClient from '../utils/validation.js';
+import { validaClient, validaCartao } from '../utils/validation.js';
 
 class ClientController {
   static findClients = async (req, res) => {
@@ -14,11 +14,35 @@ class ClientController {
   static findClientById = async (req, res) => {
     const { id } = req.params;
     try {
-      const response = await Client.findById({ _id: id });
-      const { dadosPessoais, endereco } = response;
+      const { dadosPessoais, endereco } = await Client.findById({ _id: id });
       res.status(200).json({ dadosPessoais, endereco });
     } catch {
       res.status(404).send('Nenhum cliente encontrado');
+    }
+  };
+
+  static findClientByCard = async (req, res) => {
+    try {
+      const { numeroCartao, nomeCartao, cvcCartao } = req.body;
+      validaCartao(req.body);
+
+      const cliente = await Client.findOne({
+        'cartao.numeroCartao': numeroCartao,
+        'cartao.nomeCartao': nomeCartao,
+        'cartao.cvcCartao': cvcCartao,
+      });
+
+      if (cliente) {
+        const { _id: id } = cliente;
+        return res.status(200).json({
+          idCliente: id,
+          rendaMensal: cliente.dadosPessoais.rendaMensal,
+        });
+      }
+
+      return res.status(404).send('Nenhum cliente encontrado');
+    } catch (err) {
+      return res.status(400).send({ errorMessage: err.message });
     }
   };
 

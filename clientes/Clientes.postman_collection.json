@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "736574e4-e683-49a2-9c83-bf97f259e326",
+		"name": "Clientes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27991253"
+	},
+	"item": [
+		{
+			"name": "Insert Clients",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWMyZWU5ZjgwYWUzOWQ5NDM3MjI2MSIsImlhdCI6MTY4Nzk1OTEwMiwiZXhwIjoxNjg4MDQ1NTAyfQ.XcuwssYMaSGmeOHlte6IslgP-al0v3lHdTzHwyg2WE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n{\r\n  \"dadosPessoais\": {\r\n    \"nome\": \"Isabela\",\r\n    \"cpf\": \"12345678910\",\r\n    \"email\": \"test@test.com\",\r\n    \"telefone\": \"12345678910\",\r\n    \"rendaMensal\": 4000.00\r\n  },\r\n  \"endereco\": {\r\n    \"rua\": \"Rua A\",\r\n    \"numero\": 1234,\r\n    \"complemento\": \"S/N\",\r\n    \"cep\": \"12345678\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"uf\": \"SP\"\r\n  },\r\n  \"cartao\": {\r\n    \"numeroCartao\": \"1234567891234567\",\r\n    \"nomeCartao\": \"Isabela Costa\",\r\n    \"validadeCartao\": \"05/2024\",\r\n    \"cvcCartao\": \"3423\",\r\n    \"vencimentoFatura\": \"01\"\r\n  }\r\n},\r\n{\r\n  \"dadosPessoais\": {\r\n    \"nome\": \"Kauã\",\r\n    \"cpf\": \"12345678910\",\r\n    \"email\": \"kaua@test.com\",\r\n    \"telefone\": \"12345678910\",\r\n    \"rendaMensal\": 4000.00\r\n  },\r\n  \"endereco\": {\r\n    \"rua\": \"Rua A\",\r\n    \"numero\": 1234,\r\n    \"complemento\": \"S/N\",\r\n    \"cep\": \"12345678\",\r\n    \"cidade\": \"São Paulo\",\r\n    \"uf\": \"SP\"\r\n  },\r\n  \"cartao\": {\r\n    \"numeroCartao\": \"1234567891234567\",\r\n    \"nomeCartao\": \"Kauã Maximino\",\r\n    \"validadeCartao\": \"05/2024\",\r\n    \"cvcCartao\": \"3423\",\r\n    \"vencimentoFatura\": \"01\"\r\n  }\r\n}\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/admin/clients",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Is\",\r\n  \"email\": \"is@teste.com\",\r\n  \"senha\": \"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/admin/accounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"admin",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"isabela@teste.com\",\r\n  \"senha\": \"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/accounts/login",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"accounts",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Client by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/admin/clients/649c3a1c4a351e6ec0442aea",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"admin",
+						"clients",
+						"649c3a1c4a351e6ec0442aea"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Card",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:3001",
+			"type": "string"
+		}
+	]
+}
