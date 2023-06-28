@@ -14,7 +14,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 async function buscaPorId(id) {
   const usuario = Account.findById(id);
   if (!usuario) {
-    return null;
+    throw new Error('Id inválido');
   }
 
   return new Account(usuario);
@@ -32,7 +32,7 @@ passport.use(
         const account = await Account.findOne({ email });
 
         if (!account) {
-          return done(null, false, { message: 'Email ou senha inválido' });
+          throw new Error('Email não encontrado');
         }
 
         const isMatch = await bcrypt.compare(senha, account.senha);
@@ -65,7 +65,7 @@ passport.use(
 
 const generateToken = (id) => {
   const payload = { id };
-  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1d' });
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
   return token;
 };
 

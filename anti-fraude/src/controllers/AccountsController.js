@@ -1,6 +1,5 @@
 /* eslint-disable linebreak-style */
 import bcrypt from 'bcryptjs';
-import passport from 'passport';
 import generateToken from '../utils/auth.js';
 import Account from '../models/Account.js';
 
@@ -38,7 +37,6 @@ class AccountController {
     const salt = await bcrypt.genSalt(12);
     const senhaHash = await bcrypt.hash(senha, salt);
     const account = new Account({
-      ...req.body,
       nome,
       email,
       senha: senhaHash,
@@ -85,19 +83,12 @@ class AccountController {
     });
   };
 
-  static newLogin = (req, res, next) => {
-    passport.authenticate('local', { session: false }, (err, user, info) => {
-      if (err) {
-        return next(err);
-      }
+  static newLogin = (req, res) => {
+    const account = req.user;
 
-      if (!user) {
-        return res.status(400).json({ message: info.message });
-      }
+    const token = generateToken(account._id);
 
-      const token = generateToken(user._id);
-      return res.status(204).header('Authorization', `Bearer ${token}`).send();
-    })(req, res, next);
+    return res.status(204).header('Authorization', `Bearer ${token}`).send();
   };
 }
 
