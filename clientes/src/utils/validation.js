@@ -73,8 +73,11 @@ function validaEndereco(body) {
 function validaCartao(body) {
   const regexNome = /^[a-zA-Z\s]{5,}$/;
   const regexValidade = /^\d{2}\/\d{4}$/;
+  const regexNumeroCartao = /^\d{16}$/;
   const regexDia = /^\d{2}$/;
-  const validade = body.cartao.validadeCartao;
+  const regexCVC = /^\d{3}$/;
+  const test = body.cartao || body;
+  const validade = test.validadeCartao;
   if (regexValidade.test(validade)) {
     const mes = validade.split('/')[0];
     const ano = validade.split('/')[1];
@@ -87,16 +90,16 @@ function validaCartao(body) {
     throw new Error('Invalid argument: validade do cartão');
   }
 
-  if (body.cartao.numeroCartao.length !== 16) {
+  if (!regexNumeroCartao.test(test.numeroCartao)) {
     throw new Error('Invalid argument: numero do cartão');
   }
-  if (!regexNome.test(body.dadosPessoais.nome)) {
+  if (!regexNome.test(test.nomeCartao)) {
     throw new Error('Invalid argument: nome');
   }
-  if (body.cartao.cvcCartao.length !== 3) {
+  if (!regexCVC.test(test.cvcCartao)) {
     throw new Error('Invalid argument: cvc do cartão');
   }
-  if (!regexDia.test(body.cartao.vencimentoFatura)) {
+  if (!regexDia.test(test.vencimentoFatura)) {
     throw new Error('Invalid argument: vencimento da fatura');
   }
 }
@@ -107,4 +110,7 @@ function validaClient(body) {
   validaCartao(body);
 }
 
-export default validaClient;
+export {
+  validaClient,
+  validaCartao,
+};
