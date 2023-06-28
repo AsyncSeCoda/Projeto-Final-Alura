@@ -1,0 +1,146 @@
+[
+  {
+    "dadosPessoais": {
+      "nome": "Isabela Costa",
+      "cpf": "32823416013",
+      "email": "isabela@minkget.com",
+      "telefone": "12345678910",
+      "rendaMensal": 4000.00
+    },
+    "endereco": {
+      "rua": "Manoel Antônio",
+      "numero": 1,
+      "complemento": "S/N",
+      "cep": "36400975",
+      "cidade": "Conselheiro Lafaiete",
+      "uf": "MG"
+    },
+    "cartao": {
+      "numeroCartao": "5291559458459072",
+      "nomeCartao": "Isabela Costa",
+      "validadeCartao": "05/2024",
+      "cvcCartao": "378",
+      "vencimentoFatura": "01"
+    }
+  },
+  {
+    "dadosPessoais": {
+      "nome": "Kaua Maximino",
+      "cpf": "34422299018",
+      "email": "kaua@minkget.com",
+      "telefone": "11567895639",
+      "rendaMensal": 4100.00
+    },
+    "endereco": {
+      "rua": "Nestor Vítor dos Santos",
+      "numero": 2,
+      "complemento": "S/N",
+      "cep": "05790390",
+      "cidade": "São Paulo",
+      "uf": "SP"
+    },
+    "cartao": {
+      "numeroCartao": "5141022392145341",
+      "nomeCartao": "Kaua Maximino",
+      "validadeCartao": "08/2024",
+      "cvcCartao": "876",
+      "vencimentoFatura": "02"
+    }
+  },
+  {
+    "dadosPessoais": {
+      "nome": "Marina de Campos",
+      "cpf": "77782642000",
+      "email": "marina@minkget.com",
+      "telefone": "65908734657",
+      "rendaMensal": 4200.00
+    },
+    "endereco": {
+      "rua": "Manoel de Lima",
+      "numero": 3,
+      "complemento": "S/N",
+      "cep": "04835120",
+      "cidade": "Salvador",
+      "uf": "BA"
+    },
+    "cartao": {
+      "numeroCartao": "6062821257456971",
+      "nomeCartao": "Kaua Maximino",
+      "validadeCartao": "08/2027",
+      "cvcCartao": "140",
+      "vencimentoFatura": "03"
+    }
+  },
+  {
+    "dadosPessoais": {
+      "nome": "Natalia de Abreu",
+      "cpf": "81638046026",
+      "email": "natalia@minkget.com",
+      "telefone": "54679854327",
+      "rendaMensal": 4300.00
+    },
+    "endereco": {
+      "rua": "Leonel Lira",
+      "numero": 4,
+      "complemento": "S/N",
+      "cep": "56509818",
+      "cidade": "Arcoverde",
+      "uf": "PE"
+    },
+    "cartao": {
+      "numeroCartao": "2014041427737888",
+      "nomeCartao": "Natalia de Abreu",
+      "validadeCartao": "02/2027",
+      "cvcCartao": "400",
+      "vencimentoFatura": "04"
+    }
+  },
+  {
+    "dadosPessoais": {
+      "nome": "Gabriel Silva",
+      "cpf": "60437112063",
+      "email": "gabriel@minkget.com",
+      "telefone": "98764578436",
+      "rendaMensal": 4400.00
+    },
+    "endereco": {
+      "rua": "Travessa Serram",
+      "numero": 5,
+      "complemento": "S/N",
+      "cep": "68904017",
+      "cidade": "Macapá",
+      "uf": "AP"
+    },
+    "cartao": {
+      "numeroCartao": "3528793075720687",
+      "nomeCartao": "Gabriel Silva",
+      "validadeCartao": "02/2037",
+      "cvcCartao": "965",
+      "vencimentoFatura": "05"
+    }
+  },
+  {
+    "dadosPessoais": {
+      "nome": "Gabriela Riedel",
+      "cpf": "63338073038",
+      "email": "gabriela@minkget.com",
+      "telefone": "54679890987",
+      "rendaMensal": 4500.00
+    },
+    "endereco": {
+      "rua": "Norberto Júlio Voigt",
+      "numero": 6,
+      "complemento": "S/N",
+      "cep": "83513280",
+      "cidade": "Almirante Tamandaré",
+      "uf": "PR"
+    },
+    "cartao": {
+      "numeroCartao": "6011987433230648",
+      "nomeCartao": "Gabriela Riedel",
+      "validadeCartao": "06/2037",
+      "cvcCartao": "448",
+      "vencimentoFatura": "06"
+    }
+  }
+]
