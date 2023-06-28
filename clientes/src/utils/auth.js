@@ -65,7 +65,7 @@ passport.use(
 
 const generateToken = (id) => {
   const payload = { id };
-  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1d' });
   return token;
 };
 
