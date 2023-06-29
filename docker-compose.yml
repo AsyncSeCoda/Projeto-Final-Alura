@@ -28,6 +28,8 @@ services:
       - 3002:3002
     environment:
       MONGO_HOST: mongo-anti-fraude
+      CLIENTES_CONTAINER: clientes
+      ANTIFRAUDE_CONTAINER: anti-fraude
     depends_on:
       - mongo-anti-fraude
 
