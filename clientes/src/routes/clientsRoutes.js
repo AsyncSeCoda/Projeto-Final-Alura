@@ -6,7 +6,7 @@ const router = express.Router();
 
 router
   .get('/api/admin/clients', ClientController.findClients)
-  .get('/api/admin/clients/card', ClientController.findClientByCard)
+  .post('/api/admin/clients/card', ClientController.findClientByCard)
   .get('/api/admin/clients/:id', ClientController.findClientById)
   .post('/api/admin/clients', bearer, ClientController.createClient)
   .put('/api/admin/clients/:id', ClientController.updateClient)
