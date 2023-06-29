@@ -33,13 +33,11 @@ class TransactionController {
     //   vencimentoFatura: invoiceDueDate,
     // })}`);
 
+    if (response.status === 404) throw new Error(await response.text());
+
     const responseBody = await response.json();
 
-    console.log(responseBody)
-
-    // if (response.status === 400) throw new Error(responseBody.errorMessage);
-
-    // if (response.status === 404) throw new Error({ errorMessage: responseBody });
+    if (response.status === 400) throw new Error(responseBody.errorMessage);
 
     return responseBody;
   }
