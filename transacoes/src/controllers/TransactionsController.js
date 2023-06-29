@@ -80,7 +80,7 @@ class TransactionController {
       res.status(400).send({ errorMessage: error.message });
     }
   };
-  
+
   static getClientDataByCard = async (clientName, cardNumber, expirationDate, cardCvc, invoiceDueDate) => {
     const response = await fetch(`http://${process.env.CLIENTES_CONTAINER || 'localhost'}:3001/api/admin/clients/card?${new URLSearchParams({
       nomeCartao: clientName,
@@ -118,6 +118,6 @@ class TransactionController {
 
     return responseBody;
   };
-};
+}
 
 export default TransactionController;
