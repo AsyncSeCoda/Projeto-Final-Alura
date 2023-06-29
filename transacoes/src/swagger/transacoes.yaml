@@ -100,6 +100,102 @@ paths:
           description: unauthorized
         '400':
           description: invalid ID supplied
+  /api/admin/transactions:
+    get:
+      summary: List transactions
+      description: List all transactions
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/Transaction"
+    post:
+      summary: Add transaction
+      description: Add new transaction
+      requestBody:
+        content:
+            application/json:
+              schema:
+              type: object
+              properties:
+                valor:
+                  type: number
+                nomeCartao:
+                  type: string
+                numeroCartao:
+                  type: string
+                validadeCartao:
+                  type: string
+                cvcCartao:
+                  type: string
+                vencimentoFatura:
+                  type: string
+              required:
+                - valor
+                - nomeCartao
+                - numeroCartao
+                - validadeCartao
+                - cvcCartao
+                - vencimentoFatura
+      responses:
+        '201':
+          description: Created
+          content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Transaction"
+        '303':
+          description: See Other
+        '400':
+          description: Bad Request
+  /api/admin/transactions/{id}:
+    get:
+      summary: Get a transaction by transaction ID
+      description: List a transaction by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: "#/components/schemas/Transaction"
+        '404':
+          description: Not Found
+    put:
+      summary: Update the status of a transaction
+      description: Update account by entering the transaction ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+              required:
+                - status
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
 components:
   schemas:
     Account:
@@ -115,3 +211,13 @@ components:
         senha:
           type: string
           format: password
+    Transaction:
+      type: object
+      properties:
+        idCliente:
+          type: string
+        status:
+          type: string
+        valor:
+          type: number
+        
