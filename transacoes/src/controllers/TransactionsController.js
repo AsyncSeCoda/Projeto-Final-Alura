@@ -40,7 +40,7 @@ class TransactionController {
     if (response.status === 400) throw new Error(responseBody.errorMessage);
 
     return responseBody;
-  }
+  };
 
   static createAntiFraud = async (clientId, transactionId, status) => {
     const response = await fetch(`http://${process.env.ANTIFRAUDE_CONTAINER || 'localhost'}:3000/api/admin/antiFraud`, {
@@ -100,23 +100,23 @@ class TransactionController {
   static updateTransactionStatus = async (req, res) => {
     try {
       const { status } = req.body;
-      const { transacaoId } = req.params
+      const { id } = req.params;
 
-      if (status != 'Aprovada' || status != 'Rejeitada') throw new Error('Status inválido.')
+      if ((status !== 'Aprovada') && (status !== 'Rejeitada')) throw new Error('Status inválido.');
 
-      const foundTransaction = await Transaction.findById(transacaoId).exec()
-      
-      if (foundTransaction.status !== 'Em análise') throw new Error('Apenas transações em análise podem ter o status alterado.')
+      const foundTransaction = await Transaction.findById(id).exec();
 
-      Transaction.updateOne({_id: foundTransaction._id}, { $set: status }, { new: true }, (err, transaction) => {
+      if (foundTransaction.status !== 'Em análise') throw new Error('Apenas transações em análise podem ter o status alterado.');
+
+      Transaction.updateOne({ _id: foundTransaction._id }, { $set: { status } }, { new: true }, (err) => {
         if (err) {
           return res.status(500).send({ errorMessage: err.message });
         }
-        return res.status(204).set('Location', `/api/admin/transactions/${transaction.id}`).send();
+        return res.status(204).set('Location', `/api/admin/transactions/${id}`).send();
       });
     } catch (error) {
       res.status(400).send({ errorMessage: error.message });
-    };
+    }
   };
 }
 
