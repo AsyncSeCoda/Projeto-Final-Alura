@@ -76,8 +76,8 @@ function validaCartao(body) {
   const regexNumeroCartao = /^\d{16}$/;
   const regexDia = /^\d{2}$/;
   const regexCVC = /^\d{3}$/;
-  const test = body.cartao || body;
-  const validade = test.validadeCartao;
+  const bodyCard = body.cartao || body;
+  const validade = bodyCard.validadeCartao;
   if (regexValidade.test(validade)) {
     const mes = validade.split('/')[0];
     const ano = validade.split('/')[1];
@@ -90,16 +90,16 @@ function validaCartao(body) {
     throw new Error('Invalid argument: validade do cartão');
   }
 
-  if (!regexNumeroCartao.test(test.numeroCartao)) {
+  if (!regexNumeroCartao.test(bodyCard.numeroCartao)) {
     throw new Error('Invalid argument: numero do cartão');
   }
-  if (!regexNome.test(test.nomeCartao)) {
+  if (!regexNome.test(bodyCard.nomeCartao)) {
     throw new Error('Invalid argument: nome');
   }
-  if (!regexCVC.test(test.cvcCartao)) {
+  if (!regexCVC.test(bodyCard.cvcCartao)) {
     throw new Error('Invalid argument: cvc do cartão');
   }
-  if (!regexDia.test(test.vencimentoFatura)) {
+  if (!regexDia.test(bodyCard.vencimentoFatura)) {
     throw new Error('Invalid argument: vencimento da fatura');
   }
 }
