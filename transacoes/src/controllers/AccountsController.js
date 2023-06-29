@@ -1,3 +1,6 @@
+/* eslint-disable no-underscore-dangle */
+import bcrypt from 'bcryptjs';
+import generateToken from '../utils/auth.js';
 import Account from '../models/Account.js';
 
 class AccountController {
@@ -24,16 +27,27 @@ class AccountController {
   };
 
   static createAccount = async (req, res) => {
+    const { nome, email, senha } = req.body;
+
+    const conta = await Account.findOne({ email });
+    if (conta) {
+      return res.status(409).json({ message: 'Já existe uma conta com esse email' });
+    }
+    const salt = await bcrypt.genSalt(12);
+    const senhaHash = await bcrypt.hash(senha, salt);
+
     const account = new Account({
-      ...req.body,
+      nome,
+      email,
+      senha: senhaHash,
       createdDate: Date(),
     });
-    account.save((err, newAccount) => {
-      if (err) {
-        return res.status(500).send({ message: err.message });
-      }
-      return res.status(201).set('Location', `/admin/accounts/${account.id}`).json(newAccount);
-    });
+    try {
+      await account.save();
+      return res.status(201).set('Location', `/admin/accounts/${account.id}`).json(account);
+    } catch (err) {
+      return res.status(500).send({ message: err.message });
+    }
   };
 
   static updateAccount = (req, res) => {
@@ -56,6 +70,14 @@ class AccountController {
       }
       return res.status(204).send({ message: 'Account successfully deleted' });
     });
+  };
+
+  static newLogin = (req, res) => {
+    const account = req.user;
+
+    const token = generateToken(account._id);
+
+    return res.status(204).header('Authorization', `Bearer ${token}`).send();
   };
 }
 
