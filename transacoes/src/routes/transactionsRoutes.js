@@ -6,6 +6,8 @@ const router = express.Router();
 
 router
   .get('/api/admin/transactions', TransactionController.findTransactions)
-  .post('/api/admin/transactions', TransactionController.createTransaction);
+  .get('/api/admin/transactions/:id', TransactionController.findTransactionById)
+  .post('/api/admin/transactions', bearer, TransactionController.createTransaction)
+  .put('/api/admin/transactions/:id', TransactionController.updateTransactionStatus);
 
 export default router;
