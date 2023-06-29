@@ -23,8 +23,8 @@ class ClientController {
 
   static findClientByCard = async (req, res) => {
     try {
-      const { numeroCartao, nomeCartao, cvcCartao } = req.body;
-      validaCartao(req.body);
+      const { numeroCartao, nomeCartao, cvcCartao } = req.query;
+      validaCartao(req.query);
 
       const cliente = await Client.findOne({
         'cartao.numeroCartao': numeroCartao,
@@ -40,7 +40,7 @@ class ClientController {
         });
       }
 
-      return res.status(404).send('Nenhum cliente encontrado');
+      return res.status(404).send('Nenhum cliente encontrado com os dados disponibilizados');
     } catch (err) {
       return res.status(400).send({ errorMessage: err.message });
     }
