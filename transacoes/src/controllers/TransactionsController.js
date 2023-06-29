@@ -24,7 +24,7 @@ class TransactionController {
     });
   };
 
-  static async getClientDataByCard(clientName, cardNumber, expirationDate, cardCvc, invoiceDueDate) {
+  static getClientDataByCard = async (clientName, cardNumber, expirationDate, cardCvc, invoiceDueDate) => {
     const response = await fetch(`http://${process.env.CLIENTES_CONTAINER || 'localhost'}:3001/api/admin/clients/card?${new URLSearchParams({
       nomeCartao: clientName,
       numeroCartao: cardNumber,
@@ -42,7 +42,7 @@ class TransactionController {
     return responseBody;
   }
 
-  static async createAntiFraud(clientId, transactionId, status) {
+  static createAntiFraud = async (clientId, transactionId, status) => {
     const response = await fetch(`http://${process.env.ANTIFRAUDE_CONTAINER || 'localhost'}:3000/api/admin/antiFraud`, {
       method: 'POST',
       headers: {
@@ -60,7 +60,7 @@ class TransactionController {
     if (!response.ok) throw new Error(responseBody.errorMessage);
 
     return responseBody;
-  }
+  };
 
   static createTransaction = async (req, res) => {
     try {
@@ -90,11 +90,33 @@ class TransactionController {
 
         const resposeStatus = isTheTransactionValid ? 201 : 303;
 
-        return res.status(resposeStatus).setHeader('Location', `http://localhost:3002/api/admin/transactions/${transaction.id}`).json({ status: newTransaction.status, id: transaction.id });
+        return res.status(resposeStatus).setHeader('Location', `/api/admin/transactions/${transaction.id}`).json({ status: newTransaction.status, id: transaction.id });
       });
     } catch (error) {
       res.status(400).send({ errorMessage: error.message });
     }
+  };
+
+  static updateTransactionStatus = async (req, res) => {
+    try {
+      const { status } = req.body;
+      const { transacaoId } = req.params
+
+      if (status != 'Aprovada' || status != 'Rejeitada') throw new Error('Status inválido.')
+
+      const foundTransaction = await Transaction.findById(transacaoId).exec()
+      
+      if (foundTransaction.status !== 'Em análise') throw new Error('Apenas transações em análise podem ter o status alterado.')
+
+      Transaction.updateOne({_id: foundTransaction._id}, { $set: status }, { new: true }, (err, transaction) => {
+        if (err) {
+          return res.status(500).send({ errorMessage: err.message });
+        }
+        return res.status(204).set('Location', `/api/admin/transactions/${transaction.id}`).send();
+      });
+    } catch (error) {
+      res.status(400).send({ errorMessage: error.message });
+    };
   };
 }
 
