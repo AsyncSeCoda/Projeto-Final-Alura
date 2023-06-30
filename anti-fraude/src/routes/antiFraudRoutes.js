@@ -4,9 +4,9 @@ import AntiFraudController from '../controllers/AntiFraudController.js';
 const router = express.Router();
 
 router
-  .get('/api/admin/antiFraud', AntiFraudController.findAntiFraudInAnalysis)
   .get('/api/admin/antiFraud/:id', AntiFraudController.findAntiFraudById)
+  .get('/api/admin/antiFraud', AntiFraudController.findAntiFraudInAnalysis)
   .post('/api/admin/antiFraud', AntiFraudController.createAntiFraud)
-  .patch('/api/admin/antiFraud/:id', AntiFraudController.updateAntiFraud);
+  .put('/api/admin/antiFraud/:id', AntiFraudController.updateAntiFraud);
 
 export default router;

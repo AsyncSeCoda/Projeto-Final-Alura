@@ -1,15 +1,19 @@
+import axios from 'axios';
 import AntiFraud from '../models/AntiFraude.js';
 import axios from 'axios';
 
 function determinaStatus(statusAntigo, statusUpdate) {
-  const valorStatus = 'Aprovada' || 'Reprovada';
-  if (statusAntigo === 'Em Análise') {
-    return valorStatus;
+  const valorStatus = ['Aprovada', 'Rejeitada'];
+  console.log(valorStatus);
+  console.log(valorStatus.includes('Rejeitada'));
+  if (statusAntigo === 'Em análise') {
+    if (!valorStatus.includes(statusUpdate)) {
+      throw new Error('O novo status só pode ser atualizado para Aprovada ou Reprovada.');
+    }
+    return statusUpdate;
   }
-  //else if (statusAntigo === valorStatus) {
-//     return { status: valorStatus }; 
-//   }
-  return statusUpdate;
+
+  throw new Error('Apenas status em análise pode ser alterado.');
 }
 
 class antiFraudController {
@@ -27,10 +31,10 @@ class antiFraudController {
     const { id } = req.params;
     try {
       const response = await AntiFraud.findById(id);
-      const responseClient = await axios.get(`http://127.0.0.1:3006/api/admin/clients/${response.idCliente}`);
-      const responseTransaction = await axios.get(`http://127.0.0.1:3005/api/admin/transactions/${response.idTransacao}`);
+      const responseClient = await axios.get(`http://127.0.0.1:3001/api/admin/clients/${response.idCliente}`);
+      const responseTransaction = await axios.get(`http://127.0.0.1:3002/api/admin/transactions/${response.idTransacao}`);
       const valor = responseTransaction.data.valor;
-      res.status(200).json({...responseClient.data, ...response._doc, valor});
+      res.status(200).json({ ...responseClient.data, ...response._doc, valor });
     } catch (err) {
       res.status(404).send('Nenhum caso encontrado');
     }
@@ -49,28 +53,21 @@ class antiFraudController {
   static updateAntiFraud = async (req, res) => {
     const { id } = req.params;
     try {
-      const response = await AntiFraud.findById(id).exec();
+      const response = await AntiFraud.findById(id);
 
-      //response é o documento não atualizado
-      //a função determina Status pega o valor antigo de status e faz uma verificação 
       const valorUpdate = determinaStatus(response.status, req.body.status);
-      console.log(valorUpdate);
 
-      AntiFraud.findByIdAndUpdate(id, { status: valorUpdate });
+      await AntiFraud.findByIdAndUpdate(id, { status: valorUpdate });
 
-      //const responseTransaction = await fetch('http://localhost:3001/api/admin/transcation/:id');
+      await axios.put(`http://localhost:3002/api/admin/transactions/${response.idTransacao}`, {
+        status: valorUpdate,
+      });
 
-    // if (response.status === 404) throw new Error(await response.text());
+      if (response.status === 404) throw new Error('Transação não encontrada');
 
-    // const responseBody = await response.json();
-
-    // if (response.status === 400) throw new Error(responseBody.errorMessage);
-
-    // return responseBody;
-    res.status(200).send('Caso não encontrado');
-
+      res.status(200).send('Caso atualizado e retorna às transações');
     } catch (err) {
-      res.status(404).send('Caso não encontrado');
+      res.status(404).send(err.message);
     }
   };
 }
