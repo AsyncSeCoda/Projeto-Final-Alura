@@ -118,6 +118,17 @@ class TransactionController {
 
     return responseBody;
   };
+
+  static deleteTransaction = (req, res) => {
+    const { id } = req.params;
+
+    Transaction.findByIdAndDelete(id, (err) => {
+      if (err) {
+        return res.status(500).send({ errorMessage: err.message });
+      }
+      return res.status(204).send({ message: 'Transação deletada com sucesso' });
+    });
+  };
 }
 
 export default TransactionController;

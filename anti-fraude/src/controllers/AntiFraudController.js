@@ -1,5 +1,6 @@
 import axios from 'axios';
 import AntiFraud from '../models/AntiFraude.js';
+import axios from 'axios';
 
 function determinaStatus(statusAntigo, statusUpdate) {
   const valorStatus = ['Aprovada', 'Rejeitada'];
@@ -24,6 +25,7 @@ class antiFraudController {
       res.status(404).send('Nenhum caso encontrado');
     }
   };
+
 
   static findAntiFraudById = async (req, res) => {
     const { id } = req.params;
