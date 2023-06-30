@@ -1,0 +1,660 @@
+{
+	"info": {
+		"_postman_id": "af6e05b9-bdf4-46a1-aea9-8427ea3aa51f",
+		"name": "AsyncSeCoda Projeto Final Alura",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Transacoes",
+			"item": [
+				{
+					"name": "Accounts",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"natalia@gmail.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/accounts/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"accounts",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find all",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWMzMjY3ODE2MWY2YjJjNzQzNWJhMCIsImlhdCI6MTY4Nzk2Mzg2NywiZXhwIjoxNjg3OTY0NzY3fQ.SdIB1mGE7us6qBM7LCOKrK12mS6fLZibS2ErI12f2Nw",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:3002/api/admin/accounts/",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"accounts",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3002/api/admin/accounts/649c4b57a310a67ef5e6307c",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"accounts",
+										"649c4b57a310a67ef5e6307c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Natalia\",\r\n    \"email\": \"natalia@gmail.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/accounts",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Transactions",
+					"item": [
+						{
+							"name": "Find all",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWMzMjY3ODE2MWY2YjJjNzQzNWJhMCIsImlhdCI6MTY4Nzk2Mzg2NywiZXhwIjoxNjg3OTY0NzY3fQ.SdIB1mGE7us6qBM7LCOKrK12mS6fLZibS2ErI12f2Nw",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:3002/api/admin/transactions/",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"transactions",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3002/api/admin/transactions/649dbffd6f5a0dc7699ca0f4",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"transactions",
+										"649dbffd6f5a0dc7699ca0f4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWMzMjY3ODE2MWY2YjJjNzQzNWJhMCIsImlhdCI6MTY4ODA1OTg3MCwiZXhwIjoxNjg4MDYwNzcwfQ.O42VqRLWBxqnrK4FxxIp5sOez_3HeySb3jIG_DR5IPA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"valor\": 1000,\r\n    \"numeroCartao\": \"5291559458459072\",\r\n    \"nomeCartao\": \"Gabriela Riedel\",\r\n    \"validadeCartao\": \"05/2024\",\r\n    \"cvcCartao\": \"378\",\r\n    \"vencimentoFatura\": \"01\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/transactions/",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"transactions",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update status",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"Rejeitada\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/transactions/649dbffd6f5a0dc7699ca0f4",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"transactions",
+										"649dbffd6f5a0dc7699ca0f4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "Accounts",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"gabriela@gmail.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/accounts/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"accounts",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find all",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWMzMjY3ODE2MWY2YjJjNzQzNWJhMCIsImlhdCI6MTY4Nzk2Mzg2NywiZXhwIjoxNjg3OTY0NzY3fQ.SdIB1mGE7us6qBM7LCOKrK12mS6fLZibS2ErI12f2Nw",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:3001/api/admin/accounts",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3001/api/admin/accounts/649c50b37b8b15c8f61b2791",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"accounts",
+										"649c50b37b8b15c8f61b2791"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Gabriela\",\r\n    \"email\": \"gabriela@gmail.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/admin/accounts",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Clientes",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"natalia@gmail.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/accounts/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"accounts",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find all",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWMzMjY3ODE2MWY2YjJjNzQzNWJhMCIsImlhdCI6MTY4Nzk2Mzg2NywiZXhwIjoxNjg3OTY0NzY3fQ.SdIB1mGE7us6qBM7LCOKrK12mS6fLZibS2ErI12f2Nw",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:3001/api/admin/clients",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWMzMjY3ODE2MWY2YjJjNzQzNWJhMCIsImlhdCI6MTY4ODA1MTk3OCwiZXhwIjoxNjg4MDUyODc4fQ.P7s-o3WhZk-EJk0WQ-E5jP5_xhRSudbF1i39V3VOemI",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"dadosPessoais\": {\r\n        \"nome\": \"Gabriela Riedel\",\r\n        \"cpf\": \"32823416013\",\r\n        \"email\": \"gabriela@minkget.com\",\r\n        \"telefone\": \"12345678910\",\r\n        \"rendaMensal\": 4000.00\r\n    },\r\n    \"endereco\": {\r\n        \"rua\": \"Manoel Antônio\",\r\n        \"numero\": 1,\r\n        \"complemento\": \"S/N\",\r\n        \"cep\": \"36400975\",\r\n        \"cidade\": \"Conselheiro Lafaiete\",\r\n        \"uf\": \"MG\"\r\n    },\r\n    \"cartao\": {\r\n        \"numeroCartao\": \"5291559458459072\",\r\n        \"nomeCartao\": \"Gabriela Riedel\",\r\n        \"validadeCartao\": \"05/2024\",\r\n        \"cvcCartao\": \"378\",\r\n        \"vencimentoFatura\": \"01\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/admin/clients",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3001/api/admin/accounts/649da3862e3b771a930efad6",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"accounts",
+										"649da3862e3b771a930efad6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "find by card",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3001/api/admin/clients/card?numeroCartao=5291559458459072&nomeCartao=Isabela%20Costa&validadeCartao=05%2F2024&cvcCartao=378&vencimentoFatura=01",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"clients",
+										"card"
+									],
+									"query": [
+										{
+											"key": "numeroCartao",
+											"value": "5291559458459072"
+										},
+										{
+											"key": "nomeCartao",
+											"value": "Isabela%20Costa"
+										},
+										{
+											"key": "validadeCartao",
+											"value": "05%2F2024"
+										},
+										{
+											"key": "cvcCartao",
+											"value": "378"
+										},
+										{
+											"key": "vencimentoFatura",
+											"value": "01"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Anti fraude",
+			"item": [
+				{
+					"name": "Anti fraude",
+					"item": [
+						{
+							"name": "Find In Analysis",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWMzMjY3ODE2MWY2YjJjNzQzNWJhMCIsImlhdCI6MTY4Nzk2Mzg2NywiZXhwIjoxNjg3OTY0NzY3fQ.SdIB1mGE7us6qBM7LCOKrK12mS6fLZibS2ErI12f2Nw",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:3000/api/admin/antiFraud",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"admin",
+										"antiFraud"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWMzMjY3ODE2MWY2YjJjNzQzNWJhMCIsImlhdCI6MTY4Nzk2Mzg2NywiZXhwIjoxNjg3OTY0NzY3fQ.SdIB1mGE7us6qBM7LCOKrK12mS6fLZibS2ErI12f2Nw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"idCliente\": \"649c8614e1f00a2ad708c999\",\r\n        \"idTransacao\": \"649eeba408ff56d483abbe34\",\r\n        \"status\": \"Em análise\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/admin/antiFraud",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"admin",
+										"antiFraud"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Find by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:3000/api/admin/antiFraud/649ef65ae754562eed276f04",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"admin",
+										"antiFraud",
+										"649ef65ae754562eed276f04"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update status",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"Rejeitada\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/admin/antiFraud/649ef6c79e645eb70c2aa4b0",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"admin",
+										"antiFraud",
+										"649ef6c79e645eb70c2aa4b0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
