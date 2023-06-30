@@ -58,7 +58,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/AntiFraud"
+                  $ref: "#/components/schemas/AntiFraudID"
         '404':
           description: invalid ID supplied
           content:
@@ -96,3 +96,56 @@ components:
           type: string
         status:
           type: string
+    AntiFraudID:
+      type: object
+      properties:
+        id:
+          type: string
+        idCliente:
+          type: string
+        idTransicao:
+          type: string
+        status:
+          type: string
+        dadosPessoais:
+          type: object
+          properties:
+            nome:
+              type: string
+            cpf:
+              type: string
+            email:
+              type: string
+            telefone:
+              type: string
+            rendaMensal:
+              type: number
+        endereco:
+          type: object
+          properties:
+            rua:
+              type: string
+            numero:
+              oneOf: 
+                - type: string
+                - type: integer
+            complemento:
+              oneOf: 
+                - type: string
+                - type: integer
+            cep:
+              type: string
+            cidade:
+              type: string
+            uf:
+              type: string
+        cartao:
+          type: object
+          properties:
+            vencimentoFatura:
+              type: string
+        Transaction:
+          type: object
+          properties:
+            valor:
+              type: number
