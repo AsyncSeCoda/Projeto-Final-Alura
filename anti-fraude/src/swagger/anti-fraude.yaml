@@ -1,117 +1,98 @@
 openapi: 3.0.3
 info:
-  title: Clientes API
+  title: Anti-fraud API
   description: |-
-    API do microsserviço de Clientes
+    Microsservice API of Anti-fraud
   version: 0.0.1
 paths:
-  /api/admin/accounts:
+  /api/admin/antiFraud:
     get:
-      summary: List accounts
-      description: List all accounts
+      summary: List analysis anti-fraud with in analysis status
       responses:
         '200':
-          description: ok
+          description: Return the matched anti-frauds 
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Account"
+                  $ref: "#/components/schemas/AntiFraud"
+        '404':
+          description: Not found
+          content:
+            application/json:
+              example: "Not found"
+                
     post:
-      summary: Add account
-      description: Add new account
+      summary: Create new anti-fraud with default value as in analysis
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Account"
+              $ref: "#/components/schemas/AntiFraud"
       responses:
         '201':
           description: created
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Account"
-        '401':
-          description: unauthorized
-  /api/admin/accounts/{id}:
-    get:
-      summary: Find account
-      description: Find one specific account
-      parameters:
+                  $ref: "#/components/schemas/AntiFraud"
+        '400':
+          description: Not created
+          content:
+            application/json:
+              example: "Not created due to information error"
+  /api/admin/antiFraud/{id}:
+    parameters:
         - name: id
           in: path
-          description: ID of account that needs to be fetched
+          description: ID of the anti-fraud that needs to be fetched
           required: true
           schema:
             type: string
+    get:
+      summary: Find one specific anti-fraud by id
       responses:
         '200':
           description: ok
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Account"
-        '400':
-          description: invalid ID supplied
+                  $ref: "#/components/schemas/AntiFraud"
         '404':
-          description: not found
-    put:
-      summary: Update account
-      description: Update account by entering the whole updated account
-      parameters:
-      - name: id
-        in: path
-        description: ID of account that needs to be updated
-        required: true
-        schema:
-          type: string
+          description: invalid ID supplied
+          content:
+            application/json:
+              example: "Not found"
+    patch:
+      summary: Update the status of a specific anti-fraud
       requestBody:
         content:
           application/json:
             schema:
-                $ref: "#/components/schemas/Account"
+                $ref: "#/components/schemas/AntiFraud"
       responses:
         '200':
           description: ok
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/Account"
-        '400':
+                  $ref: "#/components/schemas/AntiFraud"
+        '404':
           description: invalid ID supplied
-        '401':
-          description: unauthorized
-    delete:
-      summary: Delete account
-      description: Delete account by entering its ID
-      parameters:
-      - name: id
-        in: path
-        description: ID of account that needs to be deleted
-        required: true
-        schema:
-          type: string
-      responses:
-        '204':
-          description: no content
-        '401':
-          description: unauthorized
-        '400':
-          description: invalid ID supplied
+          content:
+            application/json:
+              example: "Not found"
 components:
   schemas:
-    Account:
+    AntiFraud:
       type: object
       properties:
         id:
           type: string
-        nome:
+        idCliente:
           type: string
-        email:
+        idTransicao:
           type: string
-          format: email
-        senha:
+        status:
           type: string
-          format: password
