@@ -1,9 +1,7 @@
-import { ObjectId } from 'mongodb';
 import mongoose from 'mongoose';
 
 const antiFraudeSchema = new mongoose.Schema(
   {
-    _id: { type: ObjectId },
     idCliente: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'clients',
@@ -25,8 +23,11 @@ const antiFraudeSchema = new mongoose.Schema(
       },
     },
   },
+  {
+    versionKey: false,
+  }
 );
 
-const antiFraude = mongoose.model('antiFraud', antiFraudeSchema);
+const antiFraude = mongoose.model('antifrauds', antiFraudeSchema);
 
 export default antiFraude;
