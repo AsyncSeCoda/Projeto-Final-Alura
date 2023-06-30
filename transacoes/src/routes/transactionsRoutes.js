@@ -8,6 +8,7 @@ router
   .get('/api/admin/transactions', TransactionController.findTransactions)
   .get('/api/admin/transactions/:id', TransactionController.findTransactionById)
   .post('/api/admin/transactions', bearer, TransactionController.createTransaction)
-  .put('/api/admin/transactions/:id', TransactionController.updateTransactionStatus);
+  .put('/api/admin/transactions/:id', TransactionController.updateTransactionStatus)
+  .delete('/api/admin/transactions/:id', TransactionController.deleteTransaction);
 
 export default router;
