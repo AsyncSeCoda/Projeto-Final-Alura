@@ -1,0 +1,706 @@
+{
+	"info": {
+		"_postman_id": "1ad3dd5b-6988-4276-be61-bf82dcd3cdfc",
+		"name": "Transacoes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21159134"
+	},
+	"item": [
+		{
+			"name": "Transaction dentro da renda",
+			"item": [
+				{
+					"name": "Accounts Clientes",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Gabriela\",\r\n    \"email\": \"gabriela@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/admin/accounts",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"gabriela@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/accounts/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"accounts",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Clientes",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWRlMTU2YjU5ZWRmMzcyYWEyOTVkMiIsImlhdCI6MTY4ODA2ODU5MiwiZXhwIjoxNjg4MTU0OTkyfQ.2mEowxPawLLfr9vUN7_UxQu59X2mooy-tSNH-qvPI3g",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"dadosPessoais\": {\r\n        \"nome\": \"Gabriela Riedel\",\r\n        \"cpf\": \"32823416013\",\r\n        \"email\": \"gabriela@asyncsecoda.com\",\r\n        \"telefone\": \"12345678910\",\r\n        \"rendaMensal\": 4000.00\r\n    },\r\n    \"endereco\": {\r\n        \"rua\": \"Manoel Antônio\",\r\n        \"numero\": 1,\r\n        \"complemento\": \"S/N\",\r\n        \"cep\": \"36400975\",\r\n        \"cidade\": \"Conselheiro Lafaiete\",\r\n        \"uf\": \"MG\"\r\n    },\r\n    \"cartao\": {\r\n        \"numeroCartao\": \"5291559458459072\",\r\n        \"nomeCartao\": \"Gabriela Riedel\",\r\n        \"validadeCartao\": \"05/2024\",\r\n        \"cvcCartao\": \"378\",\r\n        \"vencimentoFatura\": \"01\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/admin/clients",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Accounts Transactions",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Natalia\",\r\n    \"email\": \"natalia@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/accounts",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"natalia@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/accounts/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"accounts",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Transactions",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWRkZTIzN2YyMjAzMGQ0YzEyMDcwOCIsImlhdCI6MTY4ODA2OTAyMiwiZXhwIjoxNjg4MDY5OTIyfQ.wGDcWARxysE71_M8LVGx5KDpdxOp42pXlVF_9L_HDqA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"valor\": 1000,\r\n    \"numeroCartao\": \"5291559458459072\",\r\n    \"nomeCartao\": \"Gabriela Riedel\",\r\n    \"validadeCartao\": \"05/2024\",\r\n    \"cvcCartao\": \"378\",\r\n    \"vencimentoFatura\": \"01\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/transactions/",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"transactions",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Transaction acima da renda com aprovação",
+			"item": [
+				{
+					"name": "Accounts Clientes",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Gabriela\",\r\n    \"email\": \"gabriela@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/admin/accounts",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"gabriela@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/accounts/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"accounts",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Clientes",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWRlMTU2YjU5ZWRmMzcyYWEyOTVkMiIsImlhdCI6MTY4ODA2ODU5MiwiZXhwIjoxNjg4MTU0OTkyfQ.2mEowxPawLLfr9vUN7_UxQu59X2mooy-tSNH-qvPI3g",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"dadosPessoais\": {\r\n        \"nome\": \"Gabriela Riedel\",\r\n        \"cpf\": \"32823416013\",\r\n        \"email\": \"gabriela@asyncsecoda.com\",\r\n        \"telefone\": \"12345678910\",\r\n        \"rendaMensal\": 4000.00\r\n    },\r\n    \"endereco\": {\r\n        \"rua\": \"Manoel Antônio\",\r\n        \"numero\": 1,\r\n        \"complemento\": \"S/N\",\r\n        \"cep\": \"36400975\",\r\n        \"cidade\": \"Conselheiro Lafaiete\",\r\n        \"uf\": \"MG\"\r\n    },\r\n    \"cartao\": {\r\n        \"numeroCartao\": \"5291559458459072\",\r\n        \"nomeCartao\": \"Gabriela Riedel\",\r\n        \"validadeCartao\": \"05/2024\",\r\n        \"cvcCartao\": \"378\",\r\n        \"vencimentoFatura\": \"01\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/admin/clients",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Accounts Transactions",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Natalia\",\r\n    \"email\": \"natalia@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/accounts",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"natalia@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/accounts/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"accounts",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Transactions",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWRkZTIzN2YyMjAzMGQ0YzEyMDcwOCIsImlhdCI6MTY4ODA3MDY2OSwiZXhwIjoxNjg4MDcxNTY5fQ.0XaTigbxCG2tzWK5g2Zl11JqD3PWT5Hq0rCptg4oK5Q",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"valor\": 3000,\r\n    \"numeroCartao\": \"5291559458459072\",\r\n    \"nomeCartao\": \"Gabriela Riedel\",\r\n    \"validadeCartao\": \"05/2024\",\r\n    \"cvcCartao\": \"378\",\r\n    \"vencimentoFatura\": \"01\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/transactions/",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"transactions",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update status",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"Aprovada\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/transactions/649dea21268197bb1a8664e6",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"transactions",
+										"649dea21268197bb1a8664e6"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Transaction acima da renda com rejeição",
+			"item": [
+				{
+					"name": "Accounts Clientes",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Gabriela\",\r\n    \"email\": \"gabriela@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/admin/accounts",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"gabriela@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/accounts/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"accounts",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Clientes",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWRlMTU2YjU5ZWRmMzcyYWEyOTVkMiIsImlhdCI6MTY4ODA2ODU5MiwiZXhwIjoxNjg4MTU0OTkyfQ.2mEowxPawLLfr9vUN7_UxQu59X2mooy-tSNH-qvPI3g",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"dadosPessoais\": {\r\n        \"nome\": \"Gabriela Riedel\",\r\n        \"cpf\": \"32823416013\",\r\n        \"email\": \"gabriela@asyncsecoda.com\",\r\n        \"telefone\": \"12345678910\",\r\n        \"rendaMensal\": 4000.00\r\n    },\r\n    \"endereco\": {\r\n        \"rua\": \"Manoel Antônio\",\r\n        \"numero\": 1,\r\n        \"complemento\": \"S/N\",\r\n        \"cep\": \"36400975\",\r\n        \"cidade\": \"Conselheiro Lafaiete\",\r\n        \"uf\": \"MG\"\r\n    },\r\n    \"cartao\": {\r\n        \"numeroCartao\": \"5291559458459072\",\r\n        \"nomeCartao\": \"Gabriela Riedel\",\r\n        \"validadeCartao\": \"05/2024\",\r\n        \"cvcCartao\": \"378\",\r\n        \"vencimentoFatura\": \"01\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3001/api/admin/clients",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"admin",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Accounts Transactions",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Natalia\",\r\n    \"email\": \"natalia@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/accounts",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"natalia@asyncsecoda.com\",\r\n    \"senha\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/accounts/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"accounts",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Transactions",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OWRkZTIzN2YyMjAzMGQ0YzEyMDcwOCIsImlhdCI6MTY4ODA3MDc0MSwiZXhwIjoxNjg4MDcxNjQxfQ.u-28MwwqAQWroJrxKVahI-EKATqLf3--4ILvggz5ZQg",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"valor\": 3000,\r\n    \"numeroCartao\": \"5291559458459072\",\r\n    \"nomeCartao\": \"Gabriela Riedel\",\r\n    \"validadeCartao\": \"05/2024\",\r\n    \"cvcCartao\": \"378\",\r\n    \"vencimentoFatura\": \"01\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/transactions/",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"transactions",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update status",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"Rejeitada\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3002/api/admin/transactions/649dea64268197bb1a8664ee",
+									"host": [
+										"localhost"
+									],
+									"port": "3002",
+									"path": [
+										"api",
+										"admin",
+										"transactions",
+										"649dea64268197bb1a8664ee"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

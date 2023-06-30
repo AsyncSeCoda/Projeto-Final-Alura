@@ -24,44 +24,6 @@ class TransactionController {
     });
   };
 
-  static getClientDataByCard = async (clientName, cardNumber, expirationDate, cardCvc, invoiceDueDate) => {
-    const response = await fetch(`http://${process.env.CLIENTES_CONTAINER || 'localhost'}:3001/api/admin/clients/card?${new URLSearchParams({
-      nomeCartao: clientName,
-      numeroCartao: cardNumber,
-      validadeCartao: expirationDate,
-      cvcCartao: cardCvc,
-      vencimentoFatura: invoiceDueDate,
-    })}`);
-
-    if (response.status === 404) throw new Error(await response.text());
-
-    const responseBody = await response.json();
-
-    if (response.status === 400) throw new Error(responseBody.errorMessage);
-
-    return responseBody;
-  };
-
-  static createAntiFraud = async (clientId, transactionId, status) => {
-    const response = await fetch(`http://${process.env.ANTIFRAUDE_CONTAINER || 'localhost'}:3000/api/admin/antiFraud`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        idCliente: clientId,
-        idTransacao: transactionId,
-        status,
-      }),
-    });
-
-    const responseBody = await response.json();
-
-    if (!response.ok) throw new Error(responseBody.errorMessage);
-
-    return responseBody;
-  };
-
   static createTransaction = async (req, res) => {
     try {
       const {
@@ -117,6 +79,44 @@ class TransactionController {
     } catch (error) {
       res.status(400).send({ errorMessage: error.message });
     }
+  };
+
+  static getClientDataByCard = async (clientName, cardNumber, expirationDate, cardCvc, invoiceDueDate) => {
+    const response = await fetch(`http://${process.env.CLIENTES_CONTAINER || 'localhost'}:3001/api/admin/clients/card?${new URLSearchParams({
+      nomeCartao: clientName,
+      numeroCartao: cardNumber,
+      validadeCartao: expirationDate,
+      cvcCartao: cardCvc,
+      vencimentoFatura: invoiceDueDate,
+    })}`);
+
+    if (response.status === 404) throw new Error(await response.text());
+
+    const responseBody = await response.json();
+
+    if (response.status === 400) throw new Error(responseBody.errorMessage);
+
+    return responseBody;
+  };
+
+  static createAntiFraud = async (clientId, transactionId, status) => {
+    const response = await fetch(`http://${process.env.ANTIFRAUDE_CONTAINER || 'localhost'}:3000/api/admin/antiFraud`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        idCliente: clientId,
+        idTransacao: transactionId,
+        status,
+      }),
+    });
+
+    const responseBody = await response.json();
+
+    if (!response.ok) throw new Error(responseBody.errorMessage);
+
+    return responseBody;
   };
 }
 
