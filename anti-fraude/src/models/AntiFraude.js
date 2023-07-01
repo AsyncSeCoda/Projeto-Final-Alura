@@ -14,18 +14,12 @@ const antiFraudeSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'Em análise',
-      immutable: (doc) => {
-        if (doc.status === 'Aprovada' || 'Rejeitada') {
-          return true;
-        }
-        return false;
-      },
+      enum: ['Em análise', 'Aprovada'],
     },
   },
   {
     versionKey: false,
-  }
+  },
 );
 
 const antiFraude = mongoose.model('antifrauds', antiFraudeSchema);
