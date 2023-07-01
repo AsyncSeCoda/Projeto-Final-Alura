@@ -19,7 +19,7 @@ const antiFraudeSchema = new mongoose.Schema(
   },
   {
     versionKey: false,
-  }
+  },
 );
 
 const antiFraude = mongoose.model('antifrauds', antiFraudeSchema);
