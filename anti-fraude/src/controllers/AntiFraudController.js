@@ -3,8 +3,6 @@ import AntiFraud from '../models/AntiFraude.js';
 
 function determinaStatus(statusAntigo, statusUpdate) {
   const valorStatus = ['Aprovada', 'Rejeitada'];
-  console.log(valorStatus);
-  console.log(valorStatus.includes('Rejeitada'));
   if (statusAntigo === 'Em análise') {
     if (!valorStatus.includes(statusUpdate)) {
       throw new Error('O novo status só pode ser atualizado para Aprovada ou Reprovada.');
