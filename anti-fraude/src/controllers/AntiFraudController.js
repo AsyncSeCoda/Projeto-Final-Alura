@@ -3,8 +3,6 @@ import AntiFraud from '../models/AntiFraude.js';
 
 function determinaStatus(statusAntigo, statusUpdate) {
   const valorStatus = ['Aprovada', 'Rejeitada'];
-  console.log(valorStatus);
-  console.log(valorStatus.includes('Rejeitada'));
   if (statusAntigo === 'Em análise') {
     if (!valorStatus.includes(statusUpdate)) {
       throw new Error('O novo status só pode ser atualizado para Aprovada ou Reprovada.');
@@ -79,15 +77,15 @@ class antiFraudController {
 
       await AntiFraud.findByIdAndUpdate(id, { status: valorUpdate });
 
-      await axios.put(`http://localhost:3002/api/admin/transactions/${response.idTransacao}`, {
+      const atualizaTransac = await axios.put(`http://localhost:3002/api/admin/transactions/${response.idTransacao}`, {
         status: valorUpdate,
       });
 
-      if (response.status === 404) throw new Error('Transação não encontrada');
+      const link = generateHATEOASLink('atualizada status de anti-fraude específica através do id', 'GET', generateFullURL(req, 3000, id));
 
-      const hateOasLinks = generateHATEOASLink('atualizada status de anti-fraude específica através do id', 'GET', generateFullURL(req, 3000, id));
-
-      res.status(200).send({ link: hateOasLinks });
+      if (atualizaTransac.status === 204) {
+        res.status(200).json({status: valorUpdate, link });
+      }
     } catch (err) {
       res.status(404).send(err.message);
     }
