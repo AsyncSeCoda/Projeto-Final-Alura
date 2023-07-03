@@ -77,7 +77,7 @@ class TransactionController {
         return res.status(204).set('Location', `/api/admin/transactions/${id}`).send();
       });
     } catch (error) {
-      res.status(400).send({ errorMessage: error.message });
+      res.status(404).send({ errorMessage: error.message });
     }
   };
 
