@@ -7,9 +7,9 @@ services:
     ports:
       - 3000:3000
     environment:
-      MONGO_HOST: mongo-anti-fraude
-      CLIENTES_CONTAINER: clientes
-      TRANSACOES_CONTAINER: transacoes
+      - MONGO_HOST=mongo-anti-fraude
+      - CLIENTES_CONTAINER=clientes
+      - TRANSACOES_CONTAINER=transacoes
     depends_on:
       - mongo-anti-fraude
 
@@ -19,7 +19,7 @@ services:
     ports:
       - 3001:3001
     environment:
-      MONGO_HOST: mongo-anti-fraude
+      - MONGO_HOST=mongo-anti-fraude
     depends_on:
       - mongo-anti-fraude
 
@@ -29,9 +29,9 @@ services:
     ports:
       - 3002:3002
     environment:
-      MONGO_HOST: mongo-anti-fraude
-      CLIENTES_CONTAINER: clientes
-      ANTIFRAUDE_CONTAINER: anti-fraude
+      - MONGO_HOST=mongo-anti-fraude
+      - CLIENTES_CONTAINER=clientes
+      - ANTIFRAUDE_CONTAINER=anti-fraude
     depends_on:
       - mongo-anti-fraude
 
