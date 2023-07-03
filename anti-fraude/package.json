@@ -9,8 +9,9 @@
         "dev": "nodemon server.js",
         "lint": "eslint ./src/**/*.js",
         "lint:fix": "eslint ./src/**/*.js --fix",
-        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
-        "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --watch"
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --detectOpenHandles",
+        "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --watchAll --detectOpenHandles",
+        "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --coverage --detectOpenHandles"
     },
     "author": "",
     "license": "MIT",
@@ -32,8 +33,8 @@
         "eslint": "^8.39.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-plugin-import": "^2.27.5",
-        "jest": "28.1.2",
+        "jest": "^28.1.2",
         "nodemon": "^2.0.15",
-        "supertest": "6.2.4"
+        "supertest": "^6.2.4"
     }
 }

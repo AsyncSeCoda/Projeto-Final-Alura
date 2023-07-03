@@ -14,7 +14,7 @@ const antiFraudeSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Em análise', 'Aprovada'],
+      enum: ['Em análise', 'Aprovada', 'Rejeitada'],
     },
   },
   {
