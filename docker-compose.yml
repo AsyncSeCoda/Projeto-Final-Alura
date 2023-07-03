@@ -8,6 +8,8 @@ services:
       - 3000:3000
     environment:
       MONGO_HOST: mongo-anti-fraude
+      CLIENTES_CONTAINER: clientes
+      TRANSACOES_CONTAINER: transacoes
     depends_on:
       - mongo-anti-fraude
 

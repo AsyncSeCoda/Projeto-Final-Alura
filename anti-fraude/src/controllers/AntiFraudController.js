@@ -13,7 +13,7 @@ function determinaStatus(statusAntigo, statusUpdate) {
   throw new Error('Apenas status em análise pode ser alterado.');
 }
 
-function generateFullURL(req,porta) {
+function generateFullURL(req, porta) {
   const protocol = req.protocol;
   const host = req.hostname;
   const url = req.originalUrl;
@@ -22,7 +22,7 @@ function generateFullURL(req,porta) {
   return `${protocol}://${host}:${port}${url}`;
 }
 
-function generateHATEOASLink(REF, HTTP, LINK,ID='') {
+function generateHATEOASLink(REF, HTTP, LINK, ID = '') {
   return {
     rel: REF,
     method: HTTP,
@@ -35,7 +35,7 @@ class antiFraudController {
     try {
       const response = await AntiFraud.find({ status: 'Em análise' });
       const hateOasLinks = generateHATEOASLink('retorna toda a anti-fraude em análise', 'GET', generateFullURL(req, 3000));
-      response.push({link: hateOasLinks});
+      response.push({ link: hateOasLinks });
       res.json(response);
     } catch (err) {
       res.status(404).send('Nenhum caso encontrado');
@@ -46,12 +46,14 @@ class antiFraudController {
     const { id } = req.params;
     try {
       const response = await AntiFraud.findById(id);
-      const responseClient = await axios.get(`http://127.0.0.1:3001/api/admin/clients/${response.idCliente}`);
-      const responseTransaction = await axios.get(`http://127.0.0.1:3002/api/admin/transactions/${response.idTransacao}`);
+      const responseClient = await axios.get(`http://${process.env.CLIENTES_CONTAINER || 'localhost'}:3001/api/admin/clients/${response.idCliente}`);
+      const responseTransaction = await axios.get(`http://${process.env.TRANSACOES_CONTAINER || 'localhost'}:3002/api/admin/transactions/${response.idTransacao}`);
       const link = generateHATEOASLink('retorna anti-fraude específica através do id', 'GET', generateFullURL(req, 3000, id));
       const valor = responseTransaction.data.valor;
 
-      res.status(200).json({ ...responseClient.data, ...response._doc, valor, link });
+      res.status(200).json({
+        ...responseClient.data, ...response._doc, valor, link,
+      });
     } catch (err) {
       res.status(404).send('Nenhum caso encontrado');
     }
@@ -62,7 +64,7 @@ class antiFraudController {
       const antiFraud = new AntiFraud(req.body);
       await antiFraud.save();
       const link = generateHATEOASLink('cria anti-fraude', 'GET', generateFullURL(req, 3000));
-      res.status(201).json({...antiFraud._doc, link});
+      res.status(201).json({ ...antiFraud._doc, link });
     } catch (err) {
       res.status(400).send({ errorMessage: err.message });
     }
@@ -77,7 +79,7 @@ class antiFraudController {
 
       await AntiFraud.findByIdAndUpdate(id, { status: valorUpdate });
 
-      await axios.put(`http://localhost:3002/api/admin/transactions/${response.idTransacao}`, {
+      await axios.put(`http://${process.env.TRANSACOES_CONTAINER || 'localhost'}:3002/api/admin/transactions/${response.idTransacao}`, {
         status: valorUpdate,
       });
 
