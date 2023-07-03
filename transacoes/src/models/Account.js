@@ -6,6 +6,9 @@ const accountSchema = new mongoose.Schema(
     email: { type: String, required: true },
     senha: { type: String, required: true },
   },
+  {
+    versionKey: false,
+  },
 );
 
 const Account = mongoose.model('accounts', accountSchema);

@@ -83,11 +83,11 @@ class antiFraudController {
         status: valorUpdate,
       });
 
-      if (response.status === 404) throw new Error('Transação não encontrada');
+      const link = generateHATEOASLink('atualizada status de anti-fraude específica através do id', 'GET', generateFullURL(req, 3000, id));
 
-      const hateOasLinks = generateHATEOASLink('atualizada status de anti-fraude específica através do id', 'GET', generateFullURL(req, 3000, id));
-
-      res.status(200).send({ link: hateOasLinks });
+      if (atualizaTransac.status === 204) {
+        res.status(200).json({status: valorUpdate, link });
+      }
     } catch (err) {
       res.status(404).send(err.message);
     }

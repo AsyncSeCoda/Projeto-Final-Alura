@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import axios from 'axios';
 import Transaction from '../models/Transaction.js';
 
 class TransactionController {
@@ -77,46 +77,42 @@ class TransactionController {
         return res.status(204).set('Location', `/api/admin/transactions/${id}`).send();
       });
     } catch (error) {
-      res.status(400).send({ errorMessage: error.message });
+      res.status(404).send({ errorMessage: error.message });
     }
   };
 
   static getClientDataByCard = async (clientName, cardNumber, expirationDate, cardCvc, invoiceDueDate) => {
-    const response = await fetch(`http://${process.env.CLIENTES_CONTAINER || 'localhost'}:3001/api/admin/clients/card?${new URLSearchParams({
-      nomeCartao: clientName,
-      numeroCartao: cardNumber,
-      validadeCartao: expirationDate,
-      cvcCartao: cardCvc,
-      vencimentoFatura: invoiceDueDate,
-    })}`);
+    try {
+      const response = await axios.get(`http://${process.env.CLIENTES_CONTAINER || 'localhost'}:3001/api/admin/clients/card`, {
+        params: {
+          nomeCartao: clientName,
+          numeroCartao: cardNumber,
+          validadeCartao: expirationDate,
+          cvcCartao: cardCvc,
+          vencimentoFatura: invoiceDueDate,
+        },
+      });
 
-    if (response.status === 404) throw new Error(await response.text());
+      return response.data;
+    } catch (error) {
+      if (error.response.status === 404) throw new Error(error.response.data);
 
-    const responseBody = await response.json();
-
-    if (response.status === 400) throw new Error(responseBody.errorMessage);
-
-    return responseBody;
+      throw new Error(error.response.data.errorMessage);
+    }
   };
 
   static createAntiFraud = async (clientId, transactionId, status) => {
-    const response = await fetch(`http://${process.env.ANTIFRAUDE_CONTAINER || 'localhost'}:3000/api/admin/antiFraud`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    try {
+      const response = await axios.post(`http://${process.env.ANTIFRAUDE_CONTAINER || 'localhost'}:3000/api/admin/antiFraud`, {
         idCliente: clientId,
         idTransacao: transactionId,
         status,
-      }),
-    });
+      });
 
-    const responseBody = await response.json();
-
-    if (!response.ok) throw new Error(responseBody.errorMessage);
-
-    return responseBody;
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response.data.errorMessage);
+    }
   };
 
   static deleteTransaction = (req, res) => {
