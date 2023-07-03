@@ -95,7 +95,6 @@ class TransactionController {
 
       return response.data;
     } catch (error) {
-      console.log(error.response.data);
       if (error.response.status === 404) throw new Error(error.response.data);
 
       throw new Error(error.response.data.errorMessage);
