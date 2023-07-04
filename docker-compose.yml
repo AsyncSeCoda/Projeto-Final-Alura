@@ -1,51 +1,124 @@
 # docker-compose up --force-recreate --build
+
 version: "3.9"
+  
 services:
-  anti-fraude:
-    build: anti-fraude
-    container_name: anti-fraude
+  mongo-anti-fraude:
+
+      image: mongo
+
+      container_name: mongo-anti-fraude
+
+      volumes:
+
+        - vol-mongo-anti-fraude:/data/db
+
+      restart: always
+      
+      networks:
+      - rabbitmq
+
+      ports:
+        - 27017:27017
+  rabbitmqContainer:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmqContainer'
     ports:
+        - 15672:15672
+    volumes:
+        - vol-rabbitmq:/var/lib/rabbitmq/
+        - vol-rabbitmq:/var/log/rabbitmq/
+    networks:
+        - rabbitmq
+
+  anti-fraude:
+
+    build: anti-fraude
+
+    container_name: anti-fraude
+
+    networks:
+    - rabbitmq
+
+    ports:
+
       - 3000:3000
+
     environment:
       - MONGO_HOST=mongo-anti-fraude
       - CLIENTES_CONTAINER=clientes
       - TRANSACOES_CONTAINER=transacoes
+      - RABBIT_CONTAINER=rabbitmqContainer
     depends_on:
+      - rabbitmqContainer
       - mongo-anti-fraude
+    restart: on-failure:10
+      
+
+
+
 
   clientes:
+
     build: clientes
+
     container_name: clientes
+
+    networks:
+      - rabbitmq
+
     ports:
+
       - 3001:3001
+
     environment:
       - MONGO_HOST=mongo-anti-fraude
     depends_on:
+
       - mongo-anti-fraude
 
+
+
+
   transacoes:
+
     build: transacoes
+
     container_name: transacoes
+
+    command: npm install amqplib
+
+    networks:
+    - rabbitmq
+
     ports:
+
       - 3002:3002
+
     environment:
       - MONGO_HOST=mongo-anti-fraude
       - CLIENTES_CONTAINER=clientes
       - ANTIFRAUDE_CONTAINER=anti-fraude
+      - RABBIT_CONTAINER=rabbitmqContainer
     depends_on:
+      - rabbitmqContainer
       - mongo-anti-fraude
+    restart: on-failure:10
 
-  mongo-anti-fraude:
-    image: mongo
-    container_name: mongo-anti-fraude
-    volumes:
-      - vol-mongo-anti-fraude:/data/db
-    restart: always
-    ports:
-      - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: secret
+
+
+
+
+
+
+
 
 volumes:
+
   vol-mongo-anti-fraude:
+
+  vol-rabbitmq:
+
+networks:
+  rabbitmq:
+    driver: bridge
