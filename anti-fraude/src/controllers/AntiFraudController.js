@@ -1,5 +1,59 @@
 import axios from 'axios';
+
 import AntiFraud from '../models/AntiFraude.js';
+
+import amqp from 'amqplib';
+let connection;
+let channel;
+
+async function connectRabbitMQ() {
+  connection = await amqp.connect(`amqp://${process.env.RABBIT_CONTAINER || 'localhost:15672'}`);
+  channel = await connection.createChannel();
+
+  return { connection, channel };
+}
+
+async function useRabbitMQ(connect, canal) {
+  try {
+    const queue = 'transactions-request';
+    let antiFraud;
+
+    await canal.assertQueue(queue, { durable: true });
+    await canal.consume(
+      queue,
+      async (message) => {
+        if (message) {
+          const messageContent = JSON.parse(message.content.toString());
+          console.log(messageContent);
+          antiFraud = new AntiFraud(
+            {
+              idCliente: messageContent.idCliente,
+              idTransacao: messageContent._id,
+              status: messageContent.status,
+            },
+          );
+          console.log(
+            " [x] Received '%s'",
+            JSON.parse(message.content.toString()),
+          );
+          await antiFraud.save();
+        }
+      },
+      { noAck: true },
+    );
+    console.log(' [*] Waiting for messages. To exit press CTRL+C');
+
+    await channel.close();
+  } catch (err) {
+    console.warn(err);
+  } finally {
+    if (connection) await connection.close();
+  }
+}
+
+({ connection, channel } = await connectRabbitMQ());
+
+await useRabbitMQ(connection, channel);
 
 function determinaStatus(statusAntigo, statusUpdate) {
   const valorStatus = ['Aprovada', 'Rejeitada'];
@@ -79,15 +133,29 @@ class antiFraudController {
 
       await AntiFraud.findByIdAndUpdate(id, { status: valorUpdate });
 
-      await axios.put(`http://${process.env.TRANSACOES_CONTAINER || 'localhost'}:3002/api/admin/transactions/${response.idTransacao}`, {
-        status: valorUpdate,
-      });
+      (async () => {
+        try {
+          ({ connection, channel } = await connectRabbitMQ());
 
-      const link = generateHATEOASLink('atualizada status de anti-fraude específica através do id', 'GET', generateFullURL(req, 3000, id));
+          await channel.assertQueue('antiFraudRequest');
+          channel.sendToQueue('antiFraudRequest', Buffer.from(JSON.stringify({ _id: response.idTransacao, status: valorUpdate })));
+          console.log(" [x] Sent '%s'", { status: valorUpdate });
 
-      if (atualizaTransac.status === 204) {
-        res.status(200).json({status: valorUpdate, link });
-      }
+          await channel.close();
+        } catch (erroRabbit) {
+          console.warn(erroRabbit);
+        } finally {
+          if (connection) await connection.close();
+        }
+      })();
+
+      // await axios.put(`http://${process.env.TRANSACOES_CONTAINER || 'localhost'}:3002/api/admin/transactions/${response.idTransacao}`, {
+      //   status: valorUpdate,
+      // });
+
+      const link = generateHATEOASLink('atualizada status de anti-fraude específica através do id', 'PATCH', generateFullURL(req, 3000, id));
+
+      res.status(200).json({ status: valorUpdate, link });
     } catch (err) {
       res.status(404).send(err.message);
     }
