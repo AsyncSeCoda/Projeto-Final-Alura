@@ -1,13 +1,78 @@
 import axios from 'axios';
+import amqp from 'amqplib';
 import Transaction from '../models/Transaction.js';
+
+
+let connection;
+let channel;
+
+async function connectRabbitMQ() {
+  connection = await amqp.connect(`amqp://${process.env.RABBIT_CONTAINER || 'localhost'}`);
+  channel = await connection.createChannel();
+
+  return { connection, channel };
+}
+
+async function useRabbitMQ(connect, canal) {
+  try {
+    await canal.assertQueue('antiFraudRequest', { durable: true });
+    await canal.consume(
+      'antiFraudRequest',
+      async (message) => {
+        if (message) {
+          const messageContent = JSON.parse(message.content.toString());
+          console.log(messageContent);
+          console.log(
+            " [x] Received '%s'",
+            JSON.parse(message.content.toString()),
+          );
+          await Transaction.findByIdAndUpdate(messageContent._id, { status: messageContent.status });
+        }
+      },
+      { noAck: true },
+    );
+    console.log(' [*] Waiting for messages. To exit press CTRL+C');
+
+    await channel.close();
+  } catch (err) {
+    console.warn(err);
+  } finally {
+    if (connection) await connection.close();
+  }
+}
+
+({ connection, channel } = await connectRabbitMQ());
+
+await useRabbitMQ(connection, channel);
+
+function generateFullURL(req, porta) {
+  const protocol = req.protocol;
+  const host = req.hostname;
+  const url = req.originalUrl;
+  const port = process.env.PORT || porta;
+
+  return `${protocol}://${host}:${port}${url}`;
+}
+
+function generateHATEOASLink(REF, HTTP, LINK, ID = '') {
+  return {
+    rel: REF,
+    method: HTTP,
+    href: LINK + ID,
+  };
+}
 
 class TransactionController {
   static findTransactions = (_req, res) => {
+    const hateOasLinks = generateHATEOASLink('retorna todas as transações', 'GET', generateFullURL(_req, 3002));
     Transaction.find((err, allTransactions) => {
       if (err) {
         return res.status(500).send({ errorMessage: err.message });
       }
-      return res.status(200).json(allTransactions);
+
+      const response = allTransactions;
+      response.push({ link: hateOasLinks });
+      return res.status(200).json(response);
     });
   };
 
@@ -20,7 +85,9 @@ class TransactionController {
       if (!transaction) {
         return res.status(404).json();
       }
-      return res.status(200).json(transaction);
+
+      const link = generateHATEOASLink('retorna transação específica através do id', 'GET', generateFullURL(req, 3002, id));
+      return res.status(200).json({ ...transaction._doc, link });
     });
   };
 
@@ -33,9 +100,9 @@ class TransactionController {
       const clientData = await this.getClientDataByCard(nomeCartao, numeroCartao, validadeCartao, cvcCartao, vencimentoFatura);
       const { idCliente, rendaMensal } = clientData;
 
-      const isTheTransactionValid = valor < (rendaMensal / 2);
+      const isTransactionInAnalysis = valor < (rendaMensal / 2);
 
-      const transactionStatus = isTheTransactionValid ? 'Aprovada' : 'Em análise';
+      const transactionStatus = isTransactionInAnalysis ? 'Aprovada' : 'Em análise';
 
       const transaction = new Transaction({
         valor,
@@ -48,11 +115,28 @@ class TransactionController {
           return res.status(500).send({ errorMessage: err.message });
         }
 
-        if (!isTheTransactionValid) await this.createAntiFraud(idCliente, transaction.id, transactionStatus);
 
-        const resposeStatus = isTheTransactionValid ? 201 : 303;
+        if (!isTransactionInAnalysis) {
+          (async () => {
+            try {
+              ({ connection, channel } = await connectRabbitMQ());
 
-        return res.status(resposeStatus).setHeader('Location', `/api/admin/transactions/${transaction.id}`).json({ status: newTransaction.status, id: transaction.id });
+              await channel.assertQueue('transactions-request');
+              channel.sendToQueue('transactions-request', Buffer.from(JSON.stringify(transaction)));
+              console.log(" [x] Sent '%s'", transaction);
+
+              await channel.close();
+            } catch (erroRabbit) {
+              console.warn(erroRabbit);
+            } finally {
+              if (connection) await connection.close();
+            }
+          })();
+        }
+
+        const resposeStatus = isTransactionInAnalysis ? 201 : 303;
+        const link = generateHATEOASLink('cria transação', 'POST', generateFullURL(req, 3002, transaction.id));
+        res.status(resposeStatus).json({...newTransaction._doc, link});
       });
     } catch (error) {
       res.status(400).send({ errorMessage: error.message });
@@ -66,16 +150,17 @@ class TransactionController {
 
       if ((status !== 'Aprovada') && (status !== 'Rejeitada')) throw new Error('Status inválido.');
 
-      const foundTransaction = await Transaction.findById(id).exec();
+      const foundTransaction = await Transaction.findById(id);
 
       if (foundTransaction.status !== 'Em análise') throw new Error('Apenas transações em análise podem ter o status alterado.');
 
-      Transaction.updateOne({ _id: foundTransaction._id }, { $set: { status } }, { new: true }, (err) => {
-        if (err) {
-          return res.status(500).send({ errorMessage: err.message });
-        }
-        return res.status(204).set('Location', `/api/admin/transactions/${id}`).send();
-      });
+      // Transaction.updateOne({ _id: foundTransaction._id }, { $set: { status } }, { new: true }, (err) => {
+      //   const link = generateHATEOASLink('atualiza transação', 'PUT', generateFullURL(req, 3002, foundTransaction._id));
+      //   if (err) {
+      //     return res.status(500).send({ errorMessage: err.message });
+      //   }
+      //   return res.status(200).set('Location', `/api/admin/transactions/${id}`).send(link);
+      // });
     } catch (error) {
       res.status(404).send({ errorMessage: error.message });
     }
@@ -118,11 +203,12 @@ class TransactionController {
   static deleteTransaction = (req, res) => {
     const { id } = req.params;
 
+    const link = generateHATEOASLink('deleta transação', 'DELETE', generateFullURL(req, 3002, id));
     Transaction.findByIdAndDelete(id, (err) => {
       if (err) {
         return res.status(500).send({ errorMessage: err.message });
       }
-      return res.status(204).send({ message: 'Transação deletada com sucesso' });
+      return res.status(200).send({ message: 'Transação deletada com sucesso', link});
     });
   };
 }
